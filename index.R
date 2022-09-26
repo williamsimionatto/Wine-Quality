@@ -66,12 +66,16 @@ ggplot(WineData, aes(x = density, y = alcohol)) +
   ylab("Alcool")
 
 # cria variáveis categoricas para a qualidade do vinho
-WineData$quality_descriotion <- ifelse(WineData$quality < 5, 'ruim', ifelse(WineData$quality > 6,'bom','normal'))
-WineData$quality_descriotion <- as.factor(WineData$quality_descriotion)
-str(WineData$quality_descriotion)
+WineData$quality_description <- ifelse(WineData$quality < 5, 'ruim', ifelse(WineData$quality > 6,'bom','normal'))
+WineData$quality_description <- as.factor(WineData$quality_description)
+str(WineData$quality_description)
 
-# Preparacao dos dados - cria datasets aleatorios para treino e datasets
+# Preparacao dos dados - cria datasets aleatorios para treino e tests
 set.seed(as.numeric(Sys.Date()))
 train_sample <- sample(nrow(WineData), 0.80 * nrow(WineData))
 WineData_train <- WineData[train_sample, ]
 WineData_test <- WineData[-train_sample, ]
+
+# Verifica se os dados estao distribuidos de maneira uniforme
+prop.table(table(WineData_train$quality_description))
+prop.table(table(WineData_test$quality_description))
