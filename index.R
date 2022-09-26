@@ -69,3 +69,9 @@ ggplot(WineData, aes(x = density, y = alcohol)) +
 WineData$quality_descriotion <- ifelse(WineData$quality < 5, 'ruim', ifelse(WineData$quality > 6,'bom','normal'))
 WineData$quality_descriotion <- as.factor(WineData$quality_descriotion)
 str(WineData$quality_descriotion)
+
+# Preparacao dos dados - cria datasets aleatorios para treino e datasets
+set.seed(as.numeric(Sys.Date()))
+train_sample <- sample(nrow(WineData), 0.80 * nrow(WineData))
+WineData_train <- WineData[train_sample, ]
+WineData_test <- WineData[-train_sample, ]
