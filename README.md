@@ -1,8 +1,6 @@
 Red Wine Quality
 ================
 
-## Introdução
-
 Este projeto tem por objetivo treinar um modelo do machine learning para
 prever a qualidade do vinho vermelho. Para este treinamento será
 utilizado o modelo `Árvore de decisão`, por meio do pacote (`C50`).
@@ -68,3 +66,25 @@ variáveis coletadas com base em testes físicos-químicos:
 
 -   Representa a pontuação do vinho, em uma escala de 0 a 10. Sendo 0 um
     vinho considerado `ruim` e 10 um vinho `bom`.
+
+## Análise Exploratória dos dados
+
+Uma breve análise dos dados, para poder entender suas características.
+
+![](README_files/figure-gfm/unnamed-chunk-2-1.png)<!-- -->
+
+A partir do gráfico gerado, podemos observar que a tendência geral é que
+quanto maior o teor álcoolico do vinho, menor a sua densidade. Nesta
+análise, pode-se concluir também que quanto maior a qualidade do vinho,
+maior o teor alcoólico e menor a densidade.
+
+![](README_files/figure-gfm/unnamed-chunk-3-1.png)<!-- -->
+
+Vemos que a densidade por açúcar residual tem uma distribuição bimodal
+para os vinhos de maior qualidade e uma cauda longa para os de menor
+qualidade mas de forma pouco significativa.
+
+![](README_files/figure-gfm/unnamed-chunk-4-1.png)<!-- -->
+
+O pH presentes nos vinhos, apresenta uma distribuição normal e bem
+concentrada, na faixa entre `3.0` e `3.7`.

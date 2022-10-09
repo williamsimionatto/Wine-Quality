@@ -1,6 +1,7 @@
 
 # Importa dados
 WineData <- read.table("winequality-red.csv", sep=",", header=TRUE)
+WineData$quality <- as.factor(WineData$quality)
 
 head(WineData)
 table(WineData$quality)
@@ -21,7 +22,7 @@ ggplot(WineData, aes(x = fixed.acidity)) +
   ylab("Count")
 
 ggplot(WineData, aes(x = pH)) +
-  geom_histogram(binwidth = 0.02) +
+  geom_histogram(binwidth = .1, fill = 'chartreuse',  col=I("chartreuse4")) +
   ggtitle("Distribuição pH") +
   xlab("pH") +
   ylab("Count")
@@ -65,17 +66,25 @@ ggplot(WineData, aes(x = density, y = alcohol)) +
   xlab("Densidade") +
   ylab("Alcool")
 
-ggplot(aes(x = density, y = alcohol, color = quality), data = WineData)+
+ggplot(WineData, aes(x = density, y = alcohol, color = quality)) +
   geom_point(alpha=0.1) +
-  theme_bw() +
-  geom_smooth(se = FALSE, size=0.8)
+  theme_dark() +
+  geom_smooth(se = FALSE, size=0.8) +
+  ggtitle('Densidade por teor alcoolico do vinho') +
+  labs(y = 'Teor Alcoolico', x = 'Densidade', color = 'Qualidade do Vinho')
 
-# Pode-se observar que ao utilizar a qualidade como indicador de cor,
-# a tendência geral é que quanto maior o álcool, menor a densidade.
-# Pode-se observar também que quanto maior a qualidade, maior o teor alcoólico e menor a densidade.
+
+ggplot(WineData, aes(x = residual.sugar, color = quality)) +
+  geom_density() +
+  scale_color_brewer(type = 'seq', palette = 'RdPu') +
+  scale_x_log10(breaks = seq(1, 15, 2)) +
+  scale_y_continuous(breaks = seq(0, 1.5, .25)) +
+  labs(x = 'Açúcar Residual por Litro', y = 'Densidade', color = 'Qualidade do Vinho') +
+  theme_dark() +
+  ggtitle('Densidade por açúcar residual em escala log segmentado por qualidade')
 
 # cria variáveis categoricas para a qualidade do vinho
-WineData$quality <- ifelse(WineData$quality < 5, 'ruim', ifelse(WineData$quality > 6, 'bom','normal'))
+WineData$quality <- ifelse(WineData$quality < 5, 'ruim', ifelse(WineData$quality > 6, 'bom', 'normal'))
 WineData$quality <- as.factor(WineData$quality)
 str(WineData$quality)
 
