@@ -65,17 +65,45 @@ ggplot(WineData, aes(x = density, y = alcohol)) +
   xlab("Densidade") +
   ylab("Alcool")
 
+ggplot(aes(x = density, y = alcohol, color = quality), data = WineData)+
+  geom_point(alpha=0.1) +
+  theme_bw() +
+  geom_smooth(se = FALSE, size=0.8)
+
+# Pode-se observar que ao utilizar a qualidade como indicador de cor,
+# a tendência geral é que quanto maior o álcool, menor a densidade.
+# Pode-se observar também que quanto maior a qualidade, maior o teor alcoólico e menor a densidade.
+
 # cria variáveis categoricas para a qualidade do vinho
-WineData$quality_description <- ifelse(WineData$quality < 5, 'ruim', ifelse(WineData$quality > 6,'bom','normal'))
-WineData$quality_description <- as.factor(WineData$quality_description)
-str(WineData$quality_description)
+WineData$quality <- ifelse(WineData$quality < 5, 'ruim', ifelse(WineData$quality > 6, 'bom','normal'))
+WineData$quality <- as.factor(WineData$quality)
+str(WineData$quality)
 
 # Preparacao dos dados - cria datasets aleatorios para treino e tests
-set.seed(as.numeric(Sys.Date()))
-train_sample <- sample(nrow(WineData), 0.80 * nrow(WineData))
+set.seed(123)
+train_sample <- sample(nrow(WineData), 0.8 * nrow(WineData))
 WineData_train <- WineData[train_sample, ]
 WineData_test <- WineData[-train_sample, ]
 
 # Verifica se os dados estao distribuidos de maneira uniforme
-prop.table(table(WineData_train$quality_description))
-prop.table(table(WineData_test$quality_description))
+prop.table(table(WineData_train$quality))
+prop.table(table(WineData_test$quality))
+
+# Treinando modelo
+
+# install.packages("C50")
+library(C50)
+WineData_model <- C5.0(WineData_train[-12], WineData_train$quality)
+WineData_model
+summary(WineData_model)
+
+WineData_predict <- predict(WineData_model, WineData_test)
+
+# install.packages("gmodels")
+library(gmodels)
+
+CrossTable(WineData_test$quality, WineData_predict, prop.chisq = FALSE, prop.c= FALSE, prop.r = FALSE, dnn = c('Qualidade Atual', 'Qualidade Prevista'))
+
+# install.packages("caret")
+library(caret)
+confusionMatrix(WineData_test$quality, WineData_predict)
