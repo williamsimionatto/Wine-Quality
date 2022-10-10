@@ -88,3 +88,37 @@ qualidade mas de forma pouco significativa.
 
 O pH presentes nos vinhos, apresenta uma distribuição normal e bem
 concentrada, na faixa entre `3.0` e `3.7`.
+
+## Preparação dos dados para aplicação do modelo
+
+Para preparação dos dados, foi necessário criar uma variável categorica
+para a qualidade do vinho, aplicando o seguinte critério:
+
+> Qualidade \< 5 = ruim, Qualidade \> 5 & Qualidade \< 6 = normal,
+> Qualidade \> 6 = boa
+
+Os dados foram separados aleatoriamente entre dados de ‘test’ e
+‘training’, onde 80% dos dados foram separados para testes e os 20%
+restantes separados para treinamento do modelo.
+
+Após a separação os dados ficaram distruibuidos da seguinte forma:
+
+| Var1   |      Freq |
+|:-------|----------:|
+| bom    | 0.1469898 |
+| normal | 0.8123534 |
+| ruim   | 0.0406568 |
+
+Distribuição dos dados de treinamento
+
+| Var1   |     Freq |
+|:-------|---------:|
+| bom    | 0.090625 |
+| normal | 0.875000 |
+| ruim   | 0.034375 |
+
+Distribuição dos dados de testes
+
+É possível notar que os dados não estão distribuídos de maneira
+uniforme, pois em ambos os datasets há uma concentração de vinhos
+considerados `normais`, cerca de 80%.

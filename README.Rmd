@@ -108,3 +108,38 @@ ggplot(WineData, aes(x = pH)) +
 
 O pH presentes nos vinhos, apresenta uma distribuição normal e bem concentrada, na faixa entre `3.0` e `3.7`.
 
+## Preparação dos dados para aplicação do modelo
+Para preparação dos dados, foi necessário criar uma variável categorica para a qualidade do vinho, aplicando o seguinte critério:
+
+```{r echo=FALSE}
+WineData <- read.table("winequality-red.csv", sep=",", header=TRUE)
+WineData$quality <- ifelse(WineData$quality < 5, 'ruim', ifelse(WineData$quality > 6, 'bom', 'normal'))
+WineData$quality <- as.factor(WineData$quality)
+```
+
+> Qualidade < 5 = ruim,
+> Qualidade > 5 & Qualidade < 6 = normal,
+> Qualidade > 6 = boa
+
+Os dados foram separados aleatoriamente entre dados de 'test' e 'training', onde 80% dos dados foram separados para testes e os 20% restantes separados para treinamento do modelo.
+
+```{r echo=FALSE}
+
+set.seed(123)
+train_sample <- sample(nrow(WineData), 0.8 * nrow(WineData))
+WineData_train <- WineData[train_sample, ]
+WineData_test <- WineData[-train_sample, ]
+
+training_distributiation =  prop.table(table(WineData_train$quality))
+test_distributiation = prop.table(table(WineData_test$quality))
+```
+
+Após a separação os dados ficaram distruibuidos da seguinte forma:
+```{r echo=FALSE}
+  knitr::kable(training_distributiation, caption = "Distribuição dos dados de treinamento")
+  
+  knitr::kable(test_distributiation, caption = "Distribuição dos dados de testes")
+```
+
+É possível notar que os dados não estão distribuídos de maneira uniforme, pois em ambos os datasets há uma concentração de vinhos considerados `normais`, cerca de 80%.
+
