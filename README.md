@@ -73,18 +73,23 @@ Uma breve análise dos dados, para poder entender suas características.
 
 ![](README_files/figure-gfm/unnamed-chunk-2-1.png)<!-- -->
 
+Como podemos ver pelo gráfico da `Distribuição da Qualidade`, a
+qualidade do vinho predomina entre `5` e `6`
+
+![](README_files/figure-gfm/unnamed-chunk-3-1.png)<!-- -->
+
 A partir do gráfico gerado, podemos observar que a tendência geral é que
 quanto maior o teor álcoolico do vinho, menor a sua densidade. Nesta
 análise, pode-se concluir também que quanto maior a qualidade do vinho,
 maior o teor alcoólico e menor a densidade.
 
-![](README_files/figure-gfm/unnamed-chunk-3-1.png)<!-- -->
+![](README_files/figure-gfm/unnamed-chunk-4-1.png)<!-- -->
 
 Vemos que a densidade por açúcar residual tem uma distribuição bimodal
 para os vinhos de maior qualidade e uma cauda longa para os de menor
 qualidade mas de forma pouco significativa.
 
-![](README_files/figure-gfm/unnamed-chunk-4-1.png)<!-- -->
+![](README_files/figure-gfm/unnamed-chunk-5-1.png)<!-- -->
 
 O pH presentes nos vinhos, apresenta uma distribuição normal e bem
 concentrada, na faixa entre `3.0` e `3.7`.
@@ -120,5 +125,9 @@ Distribuição dos dados de treinamento
 Distribuição dos dados de testes
 
 É possível notar que os dados não estão distribuídos de maneira
-uniforme, pois em ambos os datasets há uma concentração de vinhos
+uniforme, pois em ambos os datasets há uma maior concentração de vinhos
 considerados `normais`, cerca de 80%.
+
+## Aplicação do Modelo
+
+## Resultados
