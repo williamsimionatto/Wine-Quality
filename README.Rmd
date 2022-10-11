@@ -141,5 +141,5 @@ Após a separação os dados ficaram distruibuidos da seguinte forma:
   knitr::kable(test_distributiation, caption = "Distribuição dos dados de testes")
 ```
 
-É possível notar que os dados não estão distribuídos de maneira uniforme, pois em ambos os datasets há uma concentração de vinhos considerados `normais`, cerca de 80%.
+É possível notar que os dados não estão distribuídos de maneira uniforme, pois em ambos os datasets há uma maior concentração de vinhos considerados `normais`, cerca de 80%.
 

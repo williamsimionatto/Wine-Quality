@@ -116,3 +116,5 @@ CrossTable(WineData_test$quality, WineData_predict, prop.chisq = FALSE, prop.c= 
 # install.packages("caret")
 library(caret)
 confusionMatrix(WineData_test$quality, WineData_predict)
+
+
