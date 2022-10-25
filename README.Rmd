@@ -130,11 +130,17 @@ Para preparação dos dados, foi necessário criar uma variável categorica para
 WineData <- read.table("winequality-red.csv", sep=",", header=TRUE)
 WineData$quality <- ifelse(WineData$quality < 5, 'ruim', ifelse(WineData$quality > 6, 'bom', 'normal'))
 WineData$quality <- as.factor(WineData$quality)
+data_distributiation =  prop.table(table(WineData$quality))
 ```
 
 > Qualidade < 5 = ruim,
 > Qualidade > 5 & Qualidade < 6 = normal,
 > Qualidade > 6 = boa
+
+Com isso os dados ficaram distribuidos da seguinte forma:
+```{r echo=FALSE}
+  knitr::kable(data_distributiation, caption = "Distribuição dos dados originais")
+```
 
 Os dados foram separados aleatoriamente entre dados de 'test' e 'training', onde 80% dos dados foram separados para testes e os 20% restantes separados para treinamento do modelo.
 
@@ -156,9 +162,9 @@ Após a separação os dados ficaram distruibuidos da seguinte forma:
   knitr::kable(test_distributiation, caption = "Distribuição dos dados de testes")
 ```
 
-É possível notar que os dados não estão distribuídos de maneira uniforme, pois em ambos os datasets há uma maior concentração de vinhos considerados `normais`, cerca de 80%.
+É possível notar que os dados não estão distribuídos de maneira uniforme, pois em ambos os datasets há uma maior concentração de vinhos considerados `normais`, cerca de 80%, porém segue a distribuição dos dados originais.
 
-## Aplicação do Modelo
+## Aplicação do Modelo`
 
 ## Resultados
 

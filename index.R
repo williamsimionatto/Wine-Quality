@@ -1,13 +1,13 @@
 
 # Importa dados
 WineData <- read.table("winequality-red.csv", sep=",", header=TRUE)
-WineData$quality <- as.factor(WineData$quality)
 
 head(WineData)
 table(WineData$quality)
 
 # install.packages("Amelia")
 
+# MISSING VALUES
 library(Amelia)
 missmap(WineData, main="Valores Faltantes - Vinho Vermelho", col=c("red","grey"), legend=TRUE)
 
@@ -45,13 +45,6 @@ ggplot(WineData, aes(x = alcohol)) +
   xlab("Alcool") +
   ylab("Count")
 
-ggplot(WineData, aes(x = quality)) +
-  geom_histogram(binwidth = 1) +
-  scale_x_continuous(breaks = seq(3, 8, by = 1)) +
-  ggtitle("Distribuição da Qualidade") +
-  xlab("Qualidade") +
-  ylab("Count")
-
 ggplot(WineData, aes(x = volatile.acidity)) +
   geom_density(aes(fill = "red", color = "red")) +
   facet_wrap(~quality) +
@@ -59,6 +52,13 @@ ggplot(WineData, aes(x = volatile.acidity)) +
   ggtitle("Acidez Volátil VS Qualidade") +
   xlab("Acidez Volátil") +
   ylab("Qualidade")
+
+ggplot(WineData, aes(x = quality)) +
+  geom_histogram(binwidth = 1) +
+  scale_x_continuous(breaks = seq(3, 8, by = 1)) +
+  ggtitle("Distribuição da Qualidade") +
+  xlab("Qualidade") +
+  ylab("Count")
 
 ggplot(WineData, aes(x = density, y = alcohol)) +
   geom_jitter(aes(alpha = 1/2)) +
@@ -73,20 +73,21 @@ ggplot(WineData, aes(x = density, y = alcohol, color = quality)) +
   ggtitle('Densidade por teor alcoolico do vinho') +
   labs(y = 'Teor Alcoolico', x = 'Densidade', color = 'Qualidade do Vinho')
 
-
 ggplot(WineData, aes(x = residual.sugar, color = quality)) +
   geom_density() +
   scale_color_brewer(type = 'seq', palette = 'RdPu') +
   scale_x_log10(breaks = seq(1, 15, 2)) +
   scale_y_continuous(breaks = seq(0, 1.5, .25)) +
   labs(x = 'Açúcar Residual por Litro', y = 'Densidade', color = 'Qualidade do Vinho') +
-  theme_dark() +
   ggtitle('Densidade por açúcar residual em escala log segmentado por qualidade')
 
 # cria variáveis categoricas para a qualidade do vinho
 WineData$quality <- ifelse(WineData$quality < 5, 'ruim', ifelse(WineData$quality > 6, 'bom', 'normal'))
 WineData$quality <- as.factor(WineData$quality)
 str(WineData$quality)
+
+# Verifica a distribuição dos dados original dos dados.
+prop.table(table(WineData$quality))
 
 # Preparacao dos dados - cria datasets aleatorios para treino e tests
 set.seed(123)
@@ -110,11 +111,27 @@ WineData_predict <- predict(WineData_model, WineData_test)
 
 # install.packages("gmodels")
 library(gmodels)
-
-CrossTable(WineData_test$quality, WineData_predict, prop.chisq = FALSE, prop.c= FALSE, prop.r = FALSE, dnn = c('Qualidade Atual', 'Qualidade Prevista'))
+CrossTable(WineData_test$quality, WineData_predict, prop.chisq = FALSE, dnn = c('Qualidade', 'Qualidade Prevista'))
 
 # install.packages("caret")
 library(caret)
 confusionMatrix(WineData_test$quality, WineData_predict)
 
+## Treina com mais trials 
+error.rate = NULL
+trials <- 1:20
+
+for(i in trials){
+  set.seed(123)
+  model = C5.0(WineData_train[-12], WineData_train$quality, trials = i)
+  predict <- predict(model, WineData_test)
+  error.rate[i] = mean(WineData_test$quality != predict)
+}
+
+
+error.df <- data.frame(error.rate,trials)
+error.df
+ggplot(error.df,aes(x=trials,y=error.rate)) + 
+  geom_point() + 
+  geom_line(lty="dotted",color='red')
 

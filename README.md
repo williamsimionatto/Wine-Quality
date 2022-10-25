@@ -74,7 +74,7 @@ Uma breve análise dos dados, para poder entender suas características.
 ![](README_files/figure-gfm/unnamed-chunk-2-1.png)<!-- -->
 
 Como podemos ver pelo gráfico da `Distribuição da Qualidade`, a
-qualidade do vinho predomina entre `5` e `6`
+qualidade do vinho predomina entre `5` e `6`.
 
 ![](README_files/figure-gfm/unnamed-chunk-3-1.png)<!-- -->
 
@@ -102,6 +102,16 @@ para a qualidade do vinho, aplicando o seguinte critério:
 > Qualidade \< 5 = ruim, Qualidade \> 5 & Qualidade \< 6 = normal,
 > Qualidade \> 6 = boa
 
+Com isso os dados ficaram distribuidos da seguinte forma:
+
+| Var1   |      Freq |
+|:-------|----------:|
+| bom    | 0.1357098 |
+| normal | 0.8248906 |
+| ruim   | 0.0393996 |
+
+Distribuição dos dados originais
+
 Os dados foram separados aleatoriamente entre dados de ‘test’ e
 ‘training’, onde 80% dos dados foram separados para testes e os 20%
 restantes separados para treinamento do modelo.
@@ -128,6 +138,6 @@ Distribuição dos dados de testes
 uniforme, pois em ambos os datasets há uma maior concentração de vinhos
 considerados `normais`, cerca de 80%.
 
-## Aplicação do Modelo
+## Aplicação do Modelo\`
 
 ## Resultados
