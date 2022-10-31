@@ -136,8 +136,35 @@ Distribuição dos dados de testes
 
 É possível notar que os dados não estão distribuídos de maneira
 uniforme, pois em ambos os datasets há uma maior concentração de vinhos
-considerados `normais`, cerca de 80%.
+considerados `normais`, cerca de 80%, porém segue a distribuição dos
+dados originais.
 
-## Aplicação do Modelo\`
+## Aplicação do Modelo
 
-## Resultados
+Utilizando os dados separados para treinamento e aplicando o modelo de
+classificação C5.0 e posteriormente fazendo a predição, utilizando a
+função `predict`, do modelo gerado após o treinamento e o dados
+separados para testes, gerou a seguinte matriz de confusão.
+
+![](README_files/figure-gfm/unnamed-chunk-10-1.png)<!-- -->
+
+Conforme a tabela abaixo é possível ver que o modelo teve uma precisão
+não tão alta, cerca de `85%`.
+
+|                | confusionMatrix.overall |
+|:---------------|------------------------:|
+| Accuracy       |               0.8593750 |
+| Kappa          |               0.3533031 |
+| AccuracyLower  |               0.8163925 |
+| AccuracyUpper  |               0.8955429 |
+| AccuracyNull   |               0.8843750 |
+| AccuracyPValue |               0.9281729 |
+| McnemarPValue  |                     NaN |
+
+Precisão do modelo
+
+![](README_files/figure-gfm/unnamed-chunk-12-1.png)<!-- -->
+
+Observa-se que o modelo não possui uma regularidade na execução, pois a
+precisão varia muito conforme o `trials`, tendo a melhor precisão com 12
+`trials` com cerca de `96%`.

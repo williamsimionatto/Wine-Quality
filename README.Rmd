@@ -158,13 +158,66 @@ test_distributiation = prop.table(table(WineData_test$quality))
 Após a separação os dados ficaram distruibuidos da seguinte forma:
 ```{r echo=FALSE}
   knitr::kable(training_distributiation, caption = "Distribuição dos dados de treinamento")
-  
+
   knitr::kable(test_distributiation, caption = "Distribuição dos dados de testes")
 ```
 
 É possível notar que os dados não estão distribuídos de maneira uniforme, pois em ambos os datasets há uma maior concentração de vinhos considerados `normais`, cerca de 80%, porém segue a distribuição dos dados originais.
 
-## Aplicação do Modelo`
+## Aplicação do Modelo
 
-## Resultados
+Utilizando os dados separados para treinamento e aplicando o modelo de classificação C5.0 e posteriormente fazendo a predição, utilizando a função `predict`, do modelo gerado após o treinamento e o dados separados para testes, gerou a seguinte matriz de confusão.
 
+```{r echo=FALSE}
+library(C50)
+WineData_model <- C5.0(WineData_train[-12], WineData_train$quality)
+WineData_predict <- predict(WineData_model, WineData_test)
+
+library(caret)
+confusionMatrix <- confusionMatrix(WineData_test$quality, WineData_predict)
+confusionMatrixTable <- as.data.frame(confusionMatrix$table)
+confusionMatrixTable$diag <- confusionMatrixTable$Prediction == confusionMatrixTable$Reference
+confusionMatrixTable$ref_freq <- confusionMatrixTable$Freq * ifelse(is.na(confusionMatrixTable$diag),-1,1)
+confusionMatrixStats <-data.frame(confusionMatrix$overall)
+
+ggplot(data = confusionMatrixTable, aes(x = Prediction , y =  Reference, fill = Freq))+
+  scale_x_discrete(position = "top") +
+  geom_tile( data = confusionMatrixTable, aes(fill = ref_freq)) +
+  scale_fill_gradient2(guide = FALSE, low="red3", high="orchid4", midpoint = 0, na.value = 'white') +
+  geom_text(aes(label = Freq), color = 'black', size = 3) +
+  theme_bw() +
+  theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank(),
+        legend.position = "none",
+        panel.border = element_blank(),
+        plot.background = element_blank(),
+        axis.line = element_blank(),
+  )
+```
+
+Conforme a tabela abaixo é possível ver que o modelo teve uma precisão não tão alta, cerca de `85%`.
+
+```{r echo=FALSE}
+knitr::kable(confusionMatrixStats, caption = "Precisão do modelo")
+```
+
+Em tempo, foi aplicado o modelo com até 20 árvores de decisão, a fim de obter a melhor precisão. Dessa forma, obteve-se o seguinte gráfico: 
+
+```{r echo=FALSE}
+error.rate = NULL
+trials <- 1:20
+
+for(i in trials){
+  set.seed(123)
+  model = C5.0(WineData_train[-12], WineData_train$quality, trials = i)
+  predict <- predict(model, WineData_test)
+  error.rate[i] = mean(WineData_test$quality != predict)
+}
+
+error.df <- data.frame(error.rate,trials)
+
+ggplot(error.df,aes(x=trials,y=error.rate)) +
+  geom_point() + 
+  geom_line(lty="dotted",color='red')
+```
+
+Observando, é possível perceber o modelo não possui uma regularidade na execução, pois a precisão varia muito conforme o número de árvores, tendo a melhor precisão com 12 `árvores` com cerca de `96%`.

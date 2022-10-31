@@ -109,15 +109,28 @@ summary(WineData_model)
 
 WineData_predict <- predict(WineData_model, WineData_test)
 
-# install.packages("gmodels")
-library(gmodels)
-CrossTable(WineData_test$quality, WineData_predict, prop.chisq = FALSE, dnn = c('Qualidade', 'Qualidade Prevista'))
-
 # install.packages("caret")
 library(caret)
-confusionMatrix(WineData_test$quality, WineData_predict)
+confusionMatrix <- confusionMatrix(WineData_test$quality, WineData_predict)
+confusionMatrixTable <- as.data.frame(confusionMatrix$table)
+confusionMatrixTable$diag <- confusionMatrixTable$Prediction == confusionMatrixTable$Reference
+confusionMatrixTable$ref_freq <- confusionMatrixTable$Freq * ifelse(is.na(confusionMatrixTable$diag),-1,1)
+data.frame(confusionMatrix$overall)
 
-## Treina com mais trials 
+ggplot(data = confusionMatrixTable, aes(x = Prediction , y =  Reference, fill = Freq))+
+  scale_x_discrete(position = "top") +
+  geom_tile( data = confusionMatrixTable, aes(fill = ref_freq)) +
+  scale_fill_gradient2(guide = FALSE, low="red3", high="orchid4", midpoint = 0, na.value = 'white') +
+  geom_text(aes(label = Freq), color = 'black', size = 3) +
+  theme_bw() +
+  theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank(),
+        legend.position = "none",
+        panel.border = element_blank(),
+        plot.background = element_blank(),
+        axis.line = element_blank(),
+  )
+
+## Treina com mais trials
 error.rate = NULL
 trials <- 1:20
 
@@ -127,7 +140,6 @@ for(i in trials){
   predict <- predict(model, WineData_test)
   error.rate[i] = mean(WineData_test$quality != predict)
 }
-
 
 error.df <- data.frame(error.rate,trials)
 error.df
