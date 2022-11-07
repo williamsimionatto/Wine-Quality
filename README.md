@@ -163,11 +163,13 @@ não tão alta, cerca de `85%`.
 
 Precisão do modelo
 
+### Utilizando mais árvores
+
 Em tempo, foi aplicado o modelo com até 20 árvores de decisão, a fim de
 obter a melhor precisão. Dessa forma, obteve-se o seguinte gráfico:
 
 ![](README_files/figure-gfm/unnamed-chunk-12-1.png)<!-- -->
 
-Observando, é possível perceber o modelo não possui uma regularidade na
-execução, pois a precisão varia muito conforme o número de árvores,
-tendo a melhor precisão com 12 `árvores` com cerca de `96%`.
+Observando, é possível perceber que o modelo não possui uma regularidade
+na execução, pois a precisão varia muito conforme o número de árvores,
+tendo a melhor precisão com 12 `árvores` com cerca de `96%` de precisão.
