@@ -226,3 +226,4 @@ Observando, é possível perceber que o modelo não possui uma regularidade na e
 
 Por outro lado, talvez não tenha vantagem em usar as 12 árvores, pois a partir de 8 árvores não se tem ganhos significativos de precisão, ficando na faixa dos `90%`.
 
+O repositório deste projeto pode ser encontrado em: [Wine-Quality](https://github.com/williamsimionatto/Wine-Quality)

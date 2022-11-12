@@ -177,3 +177,6 @@ tendo a melhor precisão com 12 árvores com cerca de `96%` de precisão.
 Por outro lado, talvez não tenha vantagem em usar as 12 árvores, pois a
 partir de 8 árvores não se tem ganhos significativos de precisão,
 ficando na faixa dos `90%`.
+
+O repositório deste projeto pode ser encontrado em:
+[Wine-Quality](https://github.com/williamsimionatto/Wine-Quality)
